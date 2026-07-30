@@ -16,66 +16,92 @@
             border: 1.5px solid rgba(88, 101, 242, 0.4); border-radius: 50%;
             pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
         }
-        .card { background-color: #313338; width: 400px; border-radius: 8px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); color: #dbdee1; }
-        .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #4e5058; padding-bottom: 10px; }
-        .tab-btn { background: none; border: none; color: #b5bac1; cursor: pointer; font-weight: bold; font-size: 14px; padding: 5px 10px; outline: none; }
-        .tab-btn.active { color: white; border-bottom: 2px solid #5865f2; }
-        .tab-content { display: none; }
+        .card { 
+            background-color: #313338; width: 400px; border-radius: 12px; 
+            padding: 24px; box-shadow: 0 12px 32px rgba(0,0,0,0.6); color: #dbdee1;
+            position: relative;
+        }
+        /* New Animated Tabs */
+        .tab-container {
+            display: flex; background: #1e1f22; border-radius: 10px;
+            padding: 4px; margin-bottom: 25px; position: relative;
+        }
+        .tab-btn {
+            flex: 1; border: none; background: none; color: #b5bac1;
+            padding: 10px; font-weight: 600; cursor: pointer; z-index: 1;
+            transition: color 0.3s ease; border-radius: 8px; outline: none;
+        }
+        .tab-btn.active { color: white; }
+        .tab-slider {
+            position: absolute; height: calc(100% - 8px); width: calc(50% - 4px);
+            background: #5865f2; border-radius: 8px; top: 4px; left: 4px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Content Animations */
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
         .tab-content.active { display: block; }
-        .mention { color: #00a8fc; background: rgba(0,168,252,0.1); padding: 0 4px; border-radius: 3px; font-weight: 500; }
-        .info-item { margin-bottom: 12px; line-height: 1.5; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        .mention { color: #00a8fc; background: rgba(0,168,252,0.1); padding: 2px 6px; border-radius: 4px; font-weight: 500; }
+        .info-item { margin-bottom: 16px; background: #2b2d31; padding: 12px; border-radius: 8px; }
         .server-info { display: flex; align-items: center; margin-bottom: 20px; }
         .server-icon { width: 50px; height: 50px; background: #5865f2; border-radius: 15px; margin-right: 16px; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 20px; color: white; overflow: hidden; }
         .server-icon img { width: 100%; height: 100%; object-fit: cover; }
-        .join-btn { background-color: #248046; color: white; width: 100%; border: none; padding: 10px; border-radius: 3px; font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; display: block; text-align: center; }
+        .join-btn { background-color: #248046; color: white; width: 100%; border: none; padding: 12px; border-radius: 5px; font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; display: block; text-align: center; transition: background 0.2s; }
+        .join-btn:hover { background-color: #1a6334; }
         .status-counts { display: flex; align-items: center; font-size: 12px; color: #b5bac1; margin-top: 4px; }
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; background-color: #23a559; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; background-color: #23a559; }
     </style>
 </head>
 <body>
     <div id="cursor-follower"></div>
     <div class="card">
-        <div class="tabs">
-            <button class="tab-btn active" onclick="openTab(event, 'Discord')">Discord</button>
-            <button class="tab-btn" onclick="openTab(event, 'Info')">Info</button>
+        <div class="tab-container">
+            <div id="slider" class="tab-slider"></div>
+            <button class="tab-btn active" onclick="openTab(event, 'Main', 0)">Main</button>
+            <button class="tab-btn" onclick="openTab(event, 'Credits', 1)">Credits</button>
         </div>
 
-        <div id="Discord" class="tab-content active">
+        <div id="Main" class="tab-content active">
             <div class="server-info">
                 <div id="icon-box" class="server-icon">L</div>
                 <div>
-                    <div id="guild-name" style="color: white; font-weight: 700; font-size: 16px;">Lumina</div>
+                    <div id="guild-name" style="color: white; font-weight: 700; font-size: 18px;">Lumina</div>
                     <div class="status-counts">
                         <span class="status-dot"></span>
-                        <span id="online-count">Fetching...</span>
+                        <span id="online-count">Fetching status...</span>
                     </div>
                 </div>
             </div>
             <a href="https://discord.gg/JGnkxBfNYs" target="_blank" class="join-btn">Join Server</a>
-            <div style="margin-top: 15px; text-align: center; font-style: italic; color: #949ba4; font-size: 12px;">#1 Basketball Legends script</div>
+            <div style="margin-top: 18px; text-align: center; font-style: italic; color: #949ba4; font-size: 13px;">#1 Basketball Legends script</div>
         </div>
 
-        <div id="Info" class="tab-content">
+        <div id="Credits" class="tab-content">
             <div class="info-item">
-                <span style="color: #b5bac1;">Coder of website:</span><br>
-                <span class="mention">@Cinder</span> (Find him on Discord)
+                <span style="color: #b5bac1; font-size: 12px; text-transform: uppercase; font-weight: 700;">Developer</span><br>
+                <span class="mention">@Cinder</span>
             </div>
             <div class="info-item">
-                <span style="color: #b5bac1;">Helped put up website:</span><br>
+                <span style="color: #b5bac1; font-size: 12px; text-transform: uppercase; font-weight: 700;">Setup</span><br>
                 <span class="mention">@Display</span>
             </div>
         </div>
     </div>
 
     <script>
-        function openTab(evt, tabName) {
+        function openTab(evt, tabName, index) {
             var i, content, tabs;
             content = document.getElementsByClassName("tab-content");
             for (i = 0; i < content.length; i++) { content[i].style.display = "none"; }
             tabs = document.getElementsByClassName("tab-btn");
-            for (i = 0; i < tabs.length; i++) { tabs[i].className = tabs[i].className.replace(" active", ""); }
+            for (i = 0; i < tabs.length; i++) { tabs[i].classList.remove("active"); }
+            
             document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.className += " active";
+            evt.currentTarget.classList.add("active");
+            
+            // Move the slider
+            document.getElementById('slider').style.transform = `translateX(${index * 100}%)`;
         }
 
         const INVITE_CODE = 'JGnkxBfNYs';
